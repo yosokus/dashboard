@@ -45,7 +45,11 @@ class SysNewsWidget implements \TYPO3\CMS\Dashboard\DashboardWidgetInterface
      */
     private function initialize($dashboardWidgetSetting = null)
     {
-        $flexformSettings = \TYPO3\CMS\Extbase\Service\FlexFormService::convertFlexFormContentToArray($dashboardWidgetSetting->getSettingsFlexform());
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+        /** @var \TYPO3\CMS\Extbase\Service\FlexFormService  $flexformService */
+        $flexformService = $objectManager->get('TYPO3\\CMS\\Extbase\\Service\\FlexFormService');
+        $flexformSettings = $flexformService->convertFlexFormContentToArray($dashboardWidgetSetting->getSettingsFlexform());
+
         $this->limit = (int)$flexformSettings['settings']['limit'];
         $this->widget = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['dashboard']['widgets'][$dashboardWidgetSetting->getWidgetIdentifier()];
     }
